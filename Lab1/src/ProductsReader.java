@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by Надюша on 02.10.2015.
@@ -41,5 +38,15 @@ public class ProductsReader {
                 }
             }
         }
+    }
+    public void makeUpResult() throws IOException {
+        FileWriter fileWriter=new FileWriter("result.txt");
+       for (Map.Entry<String, PriceCounter> entry: productMap.entrySet()){
+           String productName = entry.getKey();
+           PriceCounter priceCounter = entry.getValue();
+           String result = entry.getKey() +"_colour " + (priceCounter.Price/priceCounter.Counter);
+           fileWriter.write(result+"\n");
+       }
+        fileWriter.close();
     }
 }

@@ -10,5 +10,6 @@ public class Main {
         String coloursFile=args[1];
         ProductsReader productsReader = new ProductsReader(productDirectory);
         productsReader.readFiles();
+        productsReader.makeUpResult();
     }
 }

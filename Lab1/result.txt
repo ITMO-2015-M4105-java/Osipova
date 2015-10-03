@@ -1,0 +1,8 @@
+BabyAlien_colour 55
+Ball_colour 25
+Crocodile_colour 35
+Doll_colour 30
+LegoBionicle_colour 75
+LegoBionicleWithNoPartsMissing_colour 70
+MissPiggyInADress_colour 70
+SpaceOctopus_colour 60
