@@ -11,5 +11,4 @@ public class Main {
         ProductsReader productsReader = new ProductsReader(productDirectory);
         productsReader.readFiles();
     }
-
 }
