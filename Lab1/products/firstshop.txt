@@ -1,0 +1,4 @@
+Ball 20
+Doll 30
+LegoBionicle 60
+LegoBionicleWithNoPartsMissing 70
