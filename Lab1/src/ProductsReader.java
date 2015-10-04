@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 
 /**
@@ -12,10 +13,16 @@ public class ProductsReader {
         this.directory = directory;
         this.coloursMap = coloursMap;
     }
-
+    public Map<String, PriceCounter> getProductMap(){
+        return productMap;
+    }
     public void readFiles() throws IOException {
-        File directoryFile = new File(directory);
-        File[] files = directoryFile.listFiles();
+            File directoryFile = new File(directory);
+        if(directoryFile.listFiles().length==0){
+            System.out.println("SORRY, THE DIRECTORY YOU ENTERED IS EMPTY. CHECK THE DIRECTORY PATH AND TRY AGAIN.");
+            System.exit(0);
+        }
+            File[] files = directoryFile.listFiles();
         for (File file : files) {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = null;
@@ -23,7 +30,11 @@ public class ProductsReader {
                 StringTokenizer stringTokenizer=new StringTokenizer(line);
                 String productName = stringTokenizer.nextToken();
                 String productPriceString=stringTokenizer.nextToken();
+                if (stringTokenizer.hasMoreTokens()){
+                    continue;
+                }
                 Integer productPrice = Integer.parseInt(productPriceString);
+
                 if (productMap.containsKey(productName)){
                     PriceCounter priceCounter = productMap.get(productName);
                     Integer currentPrice = priceCounter.Price;
@@ -40,6 +51,7 @@ public class ProductsReader {
                 }
             }
         }
+
     }
     public void makeUpResult() throws IOException {
         FileWriter fileWriter=new FileWriter("result.txt");
@@ -49,13 +61,13 @@ public class ProductsReader {
            if (priceCounter.Counter>1) {
                for (Map.Entry<String, Integer> entry1 : coloursMap.entrySet()) {
                    Double resultPrice = priceCounter.Price.doubleValue() / priceCounter.Counter;
-                   String result = entry.getKey() + "_" + entry1.getKey() + " " + ((resultPrice) + entry1.getValue());
+                   String result = entry.getKey() + entry1.getKey() + " " + ((resultPrice) + entry1.getValue());
                    fileWriter.write(result + "\n");
                }
            }
            else{
                for (Map.Entry<String, Integer> entry1 : coloursMap.entrySet()) {
-                   String result = entry.getKey() + "_" + entry1.getKey() + " " + ((priceCounter.Price/priceCounter.Counter) + entry1.getValue());
+                   String result = entry.getKey() + entry1.getKey() + " " + ((priceCounter.Price/priceCounter.Counter) + entry1.getValue());
                    fileWriter.write(result + "\n");
                }
            }

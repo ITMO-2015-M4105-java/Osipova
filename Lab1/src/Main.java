@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -14,6 +15,10 @@ public class Main {
         ProductsReader productsReader = new ProductsReader(productDirectory,coloursReader.getColourMap());
         coloursReader.getColourMap();
         productsReader.readFiles();
+        if (productsReader.getProductMap().isEmpty()){
+            System.out.println("SORRY, THERE IS NO CORRECT PRODUCT DATA TO PROCESS");
+            return;
+        }
         productsReader.makeUpResult();
     }
 }

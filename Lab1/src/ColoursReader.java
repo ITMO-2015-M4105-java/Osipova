@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,17 +16,29 @@ public class ColoursReader {
     }
 
     public void readColours() throws IOException {
-        File coloursFile = new File(coloursFilename);
-        BufferedReader br = new BufferedReader(new FileReader(coloursFile));
+        try {
+            File coloursFile = new File(coloursFilename);
+
+            BufferedReader br = new BufferedReader(new FileReader(coloursFile));
         String line = null;
         while ((line = br.readLine()) != null) {
             StringTokenizer colourStringTokenizer = new StringTokenizer(line);
             String colourName = colourStringTokenizer.nextToken();
             String colourPriceString=colourStringTokenizer.nextToken();
+            if (colourStringTokenizer.hasMoreTokens()){
+                continue;
+            }
             Integer colourPrice = Integer.parseInt(colourPriceString);
-            colourMap.put(colourName, colourPrice);
+            colourMap.put("_"+colourName, colourPrice);
         }
         br.close();
+            if (colourMap.isEmpty()){
+                colourMap.put("",0);
+            }
+        }
+        catch(FileNotFoundException e){
+            colourMap.put("",0);
+        }
     }
     public Map<String, Integer> getColourMap() throws IOException {
         readColours();
