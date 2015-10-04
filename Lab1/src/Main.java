@@ -8,7 +8,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         String productDirectory=args[0];
         String coloursFile=args[1];
-        ProductsReader productsReader = new ProductsReader(productDirectory);
+        ColoursReader coloursReader = new ColoursReader(coloursFile);
+        coloursReader.readColours();
+
+        ProductsReader productsReader = new ProductsReader(productDirectory,coloursReader.getColourMap());
+        coloursReader.getColourMap();
         productsReader.readFiles();
         productsReader.makeUpResult();
     }

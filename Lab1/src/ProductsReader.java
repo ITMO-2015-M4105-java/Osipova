@@ -7,8 +7,10 @@ import java.util.*;
 public class ProductsReader {
     private String directory;
     private Map<String, PriceCounter> productMap= new TreeMap<String, PriceCounter>();
-    ProductsReader(String directory) {
+    private Map<String, Integer> coloursMap = new LinkedHashMap<String, Integer>();
+    ProductsReader(String directory, Map<String, Integer> coloursMap) {
         this.directory = directory;
+        this.coloursMap = coloursMap;
     }
 
     public void readFiles() throws IOException {
@@ -44,8 +46,10 @@ public class ProductsReader {
        for (Map.Entry<String, PriceCounter> entry: productMap.entrySet()){
            String productName = entry.getKey();
            PriceCounter priceCounter = entry.getValue();
-           String result = entry.getKey() +"_colour " + (priceCounter.Price/priceCounter.Counter);
-           fileWriter.write(result+"\n");
+           for (Map.Entry<String, Integer> entry1:coloursMap.entrySet()) {
+               String result = entry.getKey() + "_"+entry1.getKey() +" " + ((priceCounter.Price / priceCounter.Counter)+entry1.getValue());
+               fileWriter.write(result + "\n");
+           }
        }
         fileWriter.close();
     }
