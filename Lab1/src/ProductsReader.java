@@ -46,9 +46,18 @@ public class ProductsReader {
        for (Map.Entry<String, PriceCounter> entry: productMap.entrySet()){
            String productName = entry.getKey();
            PriceCounter priceCounter = entry.getValue();
-           for (Map.Entry<String, Integer> entry1:coloursMap.entrySet()) {
-               String result = entry.getKey() + "_"+entry1.getKey() +" " + ((priceCounter.Price / priceCounter.Counter)+entry1.getValue());
-               fileWriter.write(result + "\n");
+           if (priceCounter.Counter>1) {
+               for (Map.Entry<String, Integer> entry1 : coloursMap.entrySet()) {
+                   Double resultPrice = priceCounter.Price.doubleValue() / priceCounter.Counter;
+                   String result = entry.getKey() + "_" + entry1.getKey() + " " + ((resultPrice) + entry1.getValue());
+                   fileWriter.write(result + "\n");
+               }
+           }
+           else{
+               for (Map.Entry<String, Integer> entry1 : coloursMap.entrySet()) {
+                   String result = entry.getKey() + "_" + entry1.getKey() + " " + ((priceCounter.Price/priceCounter.Counter) + entry1.getValue());
+                   fileWriter.write(result + "\n");
+               }
            }
        }
         fileWriter.close();
