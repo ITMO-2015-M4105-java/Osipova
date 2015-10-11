@@ -3,8 +3,11 @@ import java.nio.file.NoSuchFileException;
 import java.util.*;
 
 /**
- * Created by Надюша on 02.10.2015.
+ *  Created by Надюша on 02.10.2015.
+ *  Класс, предназначенный для считывания строк из файлов с ассортиментом
+ *  и последующей обработки оных.
  */
+
 public class ProductsReader {
     private String directory;
     private Map<String, PriceCounter> productMap= new TreeMap<String, PriceCounter>();
@@ -25,16 +28,36 @@ public class ProductsReader {
             File[] files = directoryFile.listFiles();
         for (File file : files) {
             BufferedReader br = new BufferedReader(new FileReader(file));
+            ArrayList tempArray = new ArrayList();
             String line = null;
             while ((line = br.readLine()) != null) {
                 StringTokenizer stringTokenizer=new StringTokenizer(line);
-                String productName = stringTokenizer.nextToken();
-                String productPriceString=stringTokenizer.nextToken();
-                if (stringTokenizer.hasMoreTokens()){
+                if (stringTokenizer.countTokens()!=2){
                     continue;
                 }
-                Integer productPrice = Integer.parseInt(productPriceString);
+                String productName = stringTokenizer.nextToken();
+                String productPriceString=stringTokenizer.nextToken();
+                Integer productPrice=0;
 
+                if (tempArray.contains(productName)){
+                    continue;
+                }
+                else{
+                    tempArray.add(productName);
+                }
+
+                if(!(productName.matches("^[a-zA-Zа-яА-Я]+$")))
+                {
+                    continue;
+                }
+
+                if(productPriceString.matches("^[0-9]+$"))
+                {
+                    productPrice = Integer.parseInt(productPriceString);
+                }
+                else{
+                    continue;
+                }
                 if (productMap.containsKey(productName)){
                     PriceCounter priceCounter = productMap.get(productName);
                     Integer currentPrice = priceCounter.Price;
@@ -50,6 +73,7 @@ public class ProductsReader {
                     productMap.put(productName,priceCounter);
                 }
             }
+            tempArray.clear();
         }
 
     }
